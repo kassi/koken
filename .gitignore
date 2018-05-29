@@ -1,2 +1,5 @@
+app/application/datamapper/cache
+app/cache
+app/plugins/cache
 storage/cache
 storage/tmp
