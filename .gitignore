@@ -2,8 +2,9 @@ app/application/datamapper/cache
 app/cache
 app/plugins/cache
 storage/cache
+storage/originals
 storage/tmp
-storage/plugins/*/
+storage/plugins
 storage/themes/*/
 # this one is default from the beginning
 !storage/themes/elementary
