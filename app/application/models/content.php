@@ -1051,7 +1051,9 @@ class Content extends Koken {
 				$gps = new GPS($exif['GPS']);
 				$data['geolocation'] = array(
 					'latitude' => rtrim(sprintf('%.12f', $gps->latitude()), '0'),
-					'longitude' => rtrim(sprintf('%.12f', $gps->longitude()), '0')
+					'longitude' => rtrim(sprintf('%.12f', $gps->longitude()), '0'),
+					'direction' => $gps->direction(),
+					'datetime' => sprintf("%sT%sZ", $gps->date(), $gps->time())
 				);
 			}
 
