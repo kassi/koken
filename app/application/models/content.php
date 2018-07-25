@@ -1575,6 +1575,18 @@ class Content extends Koken {
 					2 => 'Portrait',
 					3 => 'Night'
 				)
+			),
+			'artist' => array(
+				'label' => 'Artist',
+				'field' => 'IFD0.Artist'
+			),
+			'copyright' => array(
+				'label' => 'Copyright',
+				'field' => 'IFD0.Copyright'
+			),
+			'lens_id' => array(
+				'label' => 'Lens ID',
+				'field' => 'Composite.LensID'
 			)
 		);
 
@@ -1684,6 +1696,21 @@ class Content extends Koken {
 
 					$final[] = $arr;
 					$keys[] = $property;
+
+					if ($property == 'focal_length' && $arr['computed'] != 0 && isset($exif['EXIF']['FocalLengthIn35mmFilm'])) {
+						# code...
+						$focal = $arr['computed'];
+						$foc35 = $exif['EXIF']['FocalLengthIn35mmFilm'];
+						$scaleFactor35 = $foc35 / $focal;
+						$fd2 = atan2(36, 2*$focal*$scaleFactor35);
+						$fov = $fd2 * 360.0 / M_PI;
+						$final[] = array(
+							'label' => 'FOV',
+							'raw' => $fov,
+							'key' => 'fov'
+						);
+						$keys[] = 'fov';
+					}
 				}
 			}
 
