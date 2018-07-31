@@ -5,3 +5,4 @@ storage/
 # this one is default from the beginning
 !storage/themes/elementary
 phpinfo.php
+.htaccess
