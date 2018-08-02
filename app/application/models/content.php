@@ -1373,13 +1373,16 @@ class Content extends Koken {
 					$value = $iptc[$index];
 					if (is_array($value))
 					{
-						$value = $value[0];
+						foreach ($value as &$elem) {
+					    $elem = $this->_force_utf(preg_replace('/<script.*>.*<\/script>/', '', $elem));
+						}
+					} else {
+						$value = $this->_force_utf(preg_replace('/<script.*>.*<\/script>/', '', $value));
 					}
-					$value = preg_replace('/<script.*>.*<\/script>/', '', $value);
 					$keys[] = $name;
 					$final[] = array(
 						'label' => $options['label'],
-						'value' => $this->_force_utf($value),
+						'value' => $value,
 						'key' => $name
 					);
 				}
