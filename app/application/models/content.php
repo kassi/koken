@@ -1589,6 +1589,11 @@ class Content extends Koken {
 			'lens_id' => array(
 				'label' => 'Lens ID',
 				'field' => 'Composite.LensID'
+			),
+			'user_comment' => array(
+				'label' => 'User comment',
+				'field' => 'EXIF.UserComment',
+				'func' => '_convert_user_comment'
 			)
 		);
 
@@ -1628,6 +1633,12 @@ class Content extends Koken {
 				if (isset($exif[$bits[0]][$bits[1]]))
 				{
 					$value = $exif[$bits[0]][$bits[1]];
+
+					if ($options['func']) {
+						$func = $options['func'];
+						$value = $this->$func($value);
+					}
+
 					if (is_array($value))
 					{
 						$value = $value[0];
@@ -1752,6 +1763,33 @@ class Content extends Koken {
 			return array($final, array_values($keys));
 		}
 	}
+
+  function _convert_user_comment($data)
+  {
+		$characterCode = substr($data, 0, 8);
+		$value = mb_substr($data, 8);
+
+		switch ($characterCode) {
+	    case chr(0x41) . chr(0x53) . chr(0x43) . chr(0x49) . chr(0x49) . chr(0x0) . chr(0x0) . chr(0x0): // ASCII
+        $encoding = 'US-ASCII';
+        break;
+	    case chr(0x4A) . chr(0x49) . chr(0x53) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0): // JIS
+        $encoding = 'EUC-JP';
+        break;
+	    case chr(0x55) . chr(0x4E) . chr(0x49) . chr(0x43) . chr(0x4F) . chr(0x44) . chr(0x45) . chr(0x0): // Unicode
+        $encoding = 'UTF-16LE';
+        break;
+	    default:
+	    case chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0): // Undefined
+        // try it with ASCII anyway
+        $encoding = 'ASCII';
+		}
+		if (mb_check_encoding($value, $encoding)) {
+      return mb_convert_encoding($value, "UTF-8", $encoding);
+    } else {
+      return false;
+    }
+  }
 
 	function listing($params, $id = false)
 	{
