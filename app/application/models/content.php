@@ -1597,6 +1597,10 @@ class Content extends Koken {
 				'label' => 'User comment',
 				'field' => 'EXIF.UserComment',
 				'func' => '_convert_user_comment'
+			),
+			'file_name' => array(
+				'label' => 'File name',
+				'field' => 'FILE.FileName'
 			)
 		);
 
@@ -1762,6 +1766,12 @@ class Content extends Koken {
 				$keys[] = 'lens';
 			}
 
+			$keys[] = 'exif';
+			$final[] = array(
+				'key' => 'exif',
+				'label' => 'Exif',
+				'raw' => $exif
+			);
 			natcasesort($keys);
 			return array($final, array_values($keys));
 		}
