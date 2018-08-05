@@ -2226,11 +2226,15 @@ class Content extends Koken {
 
 		$tag_map = $this->_eager_load_tags($data);
 
+		$pos = 0;
 		foreach($data as $content)
 		{
 			$tags = isset($tag_map['c' . $content->id]) ? $tag_map['c' . $content->id] : array();
 			$options['eager_tags'] = $tags;
-			$final['content'][] = $content->to_array($options);
+			$elem = $content->to_array($options);
+			$elem['pos'] = ($final['page'] - 1) * $final['per_page'] + $pos;
+			$final['content'][] = $elem;
+			$pos++;
 		}
 		return $final;
 	}
