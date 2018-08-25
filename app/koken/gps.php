@@ -27,7 +27,7 @@ class GPS {
 	function time()
 	{
 		$ts = $this->exif['GPSTimeStamp'];
-		return sprintf('%2u:%2u:%2u', $this->divide($ts[0]), $this->divide($ts[1]), $this->divide($ts[2]));
+		return sprintf('%02u:%02u:%02u', $this->divide($ts[0]), $this->divide($ts[1]), $this->divide($ts[2]));
 	}
 
 	function direction()
