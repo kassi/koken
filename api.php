@@ -1,5 +1,7 @@
 <?php
 
+
+
 $__uri = $_SERVER['REQUEST_URI'];
 
 if (($_POST || strpos($__uri, 'api.php?/system') !== false) && file_exists('system.lock'))
@@ -230,6 +232,7 @@ Shutter::hook('api.boot');
  * -------------------------------------------------------------------- *
  */
 require_once APPPATH.'third_party/datamapper/bootstrap.php';
+
 
 /*
  * --------------------------------------------------------------------

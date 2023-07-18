@@ -1,53 +1,43 @@
 <?php
 
-	// This class responds to koken:content, koken:albums and koken:essays
-	class TagLoader extends Tag {
+    // This class responds to koken:content, koken:albums and koken:essays
+    class TagLoader extends Tag
+    {
+        protected $allows_close = true;
+        public $tokenize = true;
 
-		protected $allows_close = true;
-		public $tokenize = true;
+        public function generate()
+        {
+            $obj = $this->parameters['_obj'];
+            unset($this->parameters['_obj']);
 
-		function generate()
-		{
+            if (count(Koken::$tokens) > 1) {
+                $token = '$value' . Koken::$tokens[1];
+                $copy = '$copy' . Koken::$tokens[1];
+            } else {
+                $token = '$value' . Koken::$tokens[0];
+                $copy = '$copy' . Koken::$tokens[0];
+            }
+            $ref = '$value' . Koken::$tokens[0];
+            $tmp = '$tmp' . Koken::$tokens[0];
+            $limit = '$limit' . Koken::$tokens[0];
+            $archive = '$archive' . Koken::$tokens[0];
 
-			$obj = $this->parameters['_obj'];
-			unset($this->parameters['_obj']);
+            if (isset($this->parameters['limit'])) {
+                $l = $this->attr_parse($this->parameters['limit']);
+            } else {
+                $l = 'false';
+            }
 
-			if (count(Koken::$tokens) > 1)
-			{
-				$token = '$value' . Koken::$tokens[1];
-				$copy = '$copy' . Koken::$tokens[1];
-			}
-			else
-			{
-				$token = '$value' . Koken::$tokens[0];
-				$copy = '$copy' . Koken::$tokens[0];
-			}
-			$ref = '$value' . Koken::$tokens[0];
-			$tmp = '$tmp' . Koken::$tokens[0];
-			$limit = '$limit' . Koken::$tokens[0];
-			$archive = '$archive' . Koken::$tokens[0];
+            if (isset($this->parameters['include_current'])) {
+                $current = $this->attr_parse($this->parameters['include_current']);
+            } else {
+                $current = 'true';
+            }
 
-			if (isset($this->parameters['limit']))
-			{
-				$l = $this->attr_parse($this->parameters['limit']);
-			}
-			else
-			{
-				$l = 'false';
-			}
+            $params = $this->params_to_array_str();
 
-			if (isset($this->parameters['include_current']))
-			{
-				$current = $this->attr_parse($this->parameters['include_current']);
-			}
-			else
-			{
-				$current = 'true';
-			}
-
-			$params = $this->params_to_array_str();
-
-			return <<<OUT
+            return <<<OUT
 <?php
 
 	$archive = $limit = false;
@@ -65,7 +55,7 @@
 	}
 	else
 	{
-		$copy = array();
+		$copy = [];
 	}
 
 	\$__params = array($params);
@@ -78,7 +68,7 @@
 	{
 		if (isset({$copy}['$obj']['count']) && {$copy}['$obj']['count'] === 0)
 		{
-			{$copy}['$obj'] = array();
+			{$copy}['$obj'] = [];
 		}
 		else if (isset({$copy}['filename']) || isset({$copy}['album_type']) || isset({$copy}['page_type']) || (isset({$copy}['counts']) && isset({$copy}['counts']['$obj']) && {$copy}['counts']['$obj'] > 0))
 		{
@@ -99,7 +89,7 @@
 		}
 		else
 		{
-			{$copy}['$obj'] = array();
+			{$copy}['$obj'] = [];
 		}
 	}
 
@@ -130,7 +120,7 @@
 			{$tmp}['$obj'] = array_slice({$tmp}['$obj'], 0, $limit);
 		}
 
-		$ref = array();
+		$ref = [];
 		{$ref}['__loop__'] =& {$tmp}['$obj'];
 		{$ref}['$obj'] =& {$tmp}['$obj'];
 
@@ -146,5 +136,5 @@
 		}
 ?>
 OUT;
-		}
-	}
+        }
+    }

@@ -16,13 +16,13 @@
 class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 {
     /** Signal to place pointer at start of file */
-    const POSITION_START = 0;
+    public const POSITION_START = 0;
 
     /** Signal to place pointer at end of file */
-    const POSITION_END = 1;
+    public const POSITION_END = 1;
 
     /** Signal to leave pointer in whatever position it currently is */
-    const POSITION_CURRENT = 2;
+    public const POSITION_CURRENT = 2;
 
     /**
      * An InputStream for cloning.
@@ -43,7 +43,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
      *
      * @var array
      */
-    private $_keys = array();
+    private $_keys = [];
 
     /**
      * Will be true if magic_quotes_runtime is turned on.
@@ -95,7 +95,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
                 throw new Swift_SwiftException(
                     'Invalid mode ['.$mode.'] used to set nsKey='.
                     $nsKey.', itemKey='.$itemKey
-                    );
+                );
                 break;
         }
         fwrite($fp, $string);
@@ -128,7 +128,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
                 throw new Swift_SwiftException(
                     'Invalid mode ['.$mode.'] used to set nsKey='.
                     $nsKey.', itemKey='.$itemKey
-                    );
+                );
                 break;
         }
         while (false !== $bytes = $os->read(8192)) {
@@ -273,7 +273,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
             if (!mkdir($cacheDir)) {
                 throw new Swift_IoException('Failed to create cache directory '.$cacheDir);
             }
-            $this->_keys[$nsKey] = array();
+            $this->_keys[$nsKey] = [];
         }
     }
 

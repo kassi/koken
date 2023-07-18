@@ -1,17 +1,16 @@
 <?php
 
-	class TagExif extends Tag {
+    class TagExif extends Tag
+    {
+        protected $allows_close = true;
+        public $tokenize = true;
 
-		protected $allows_close = true;
-		public $tokenize = true;
+        public function generate()
+        {
+            $token = '$value' . Koken::$tokens[1];
+            $ref = '$value' . Koken::$tokens[0];
 
-		function generate()
-		{
-
-			$token = '$value' . Koken::$tokens[1];
-			$ref = '$value' . Koken::$tokens[0];
-
-			return <<<OUT
+            return <<<OUT
 <?php
 	if (isset({$token}['exif']) && !empty({$token}['exif'])):
 
@@ -20,7 +19,7 @@
 
 		foreach({$token}['exif'] as \$__arr)
 		{
-			{$ref}['exif'][\$__arr['key']] = array();
+			{$ref}['exif'][\$__arr['key']] = [];
 			if (isset(\$__arr['clean']))
 			{
 				{$ref}['exif'][\$__arr['key']]['clean'] = \$__arr['clean'];
@@ -38,5 +37,5 @@
 		}
 ?>
 OUT;
-		}
-	}
+        }
+    }

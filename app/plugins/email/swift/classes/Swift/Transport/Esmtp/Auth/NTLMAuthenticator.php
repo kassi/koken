@@ -17,8 +17,8 @@
  */
 class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Esmtp_Authenticator
 {
-    const NTLMSIG = "NTLMSSP\x00";
-    const DESCONST = "KGS!@#$%";
+    public const NTLMSIG = "NTLMSSP\x00";
+    public const DESCONST = "KGS!@#$%";
 
     /**
      * Get the name of the AUTH mechanism this Authenticator handles.
@@ -158,7 +158,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
 
         $length = strlen($block);
         $offset = 0;
-        $data = array();
+        $data = [];
         while ($offset < $length) {
             $blockLength = hexdec(substr(substr($block, $offset, 8), -4)) / 256;
             $offset += 8;

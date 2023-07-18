@@ -18,17 +18,17 @@ class Swift_Message extends Swift_Mime_SimpleMessage
     /**
      * @var Swift_Signers_HeaderSigner[]
      */
-    private $headerSigners = array();
+    private $headerSigners = [];
 
     /**
      * @var Swift_Signers_BodySigner[]
      */
-    private $bodySigners = array();
+    private $bodySigners = [];
 
     /**
      * @var array
      */
-    private $savedMessage = array();
+    private $savedMessage = [];
 
     /**
      * Create a new Message.
@@ -46,7 +46,7 @@ class Swift_Message extends Swift_Mime_SimpleMessage
             array($this, 'Swift_Mime_SimpleMessage::__construct'),
             Swift_DependencyContainer::getInstance()
                 ->createDependenciesFor('mime.message')
-            );
+        );
 
         if (!isset($charset)) {
             $charset = Swift_DependencyContainer::getInstance()
@@ -87,8 +87,10 @@ class Swift_Message extends Swift_Mime_SimpleMessage
     public function addPart($body, $contentType = null, $charset = null)
     {
         return $this->attach(Swift_MimePart::newInstance(
-            $body, $contentType, $charset
-            ));
+            $body,
+            $contentType,
+            $charset
+        ));
     }
 
     /**
@@ -266,7 +268,7 @@ class Swift_Message extends Swift_Mime_SimpleMessage
         $this->setChildren($this->savedMessage['children']);
 
         $this->restoreHeaders();
-        $this->savedMessage = array();
+        $this->savedMessage = [];
     }
 
     /**

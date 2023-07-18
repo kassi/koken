@@ -21,14 +21,14 @@ class Swift_Mime_Grammar
      *
      * @var string[]
      */
-    private static $_specials = array();
+    private static $_specials = [];
 
     /**
      * Tokens defined in RFC 2822 (and some related RFCs).
      *
      * @var string[]
      */
-    private static $_grammar = array();
+    private static $_grammar = [];
 
     /**
      * Initialize some RFC 2822 (and friends) ABNF grammar definitions.
@@ -132,7 +132,7 @@ class Swift_Mime_Grammar
         } else {
             throw new Swift_RfcComplianceException(
                 "No such grammar '".$name."' defined."
-                );
+            );
         }
     }
 
