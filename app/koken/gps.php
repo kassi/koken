@@ -21,13 +21,21 @@ class GPS
 
 	function date()
 	{
-		return implode('-', explode(':', $this->exif['GPSDateStamp']));
+    if (in_array('GPSDateStamp', $this->exif)) {
+      return implode('-', explode(':', $this->exif['GPSDateStamp']));
+    } else {
+      return "--:--:--";
+    }
 	}
 
 	function time()
 	{
-		$ts = $this->exif['GPSTimeStamp'];
-		return sprintf('%02u:%02u:%02u', $this->divide($ts[0]), $this->divide($ts[1]), $this->divide($ts[2]));
+    if (in_array('GPSTimeStamp', $this->exif)) {
+      $ts = $this->exif['GPSTimeStamp'];
+      return sprintf('%02u:%02u:%02u', $this->divide($ts[0]), $this->divide($ts[1]), $this->divide($ts[2]));
+    } else {
+      return "--:--:--";
+    }
 	}
 
 	function direction()
@@ -63,8 +71,11 @@ class GPS
 
     private function divide($str)
     {
+        $dec = 0;
         $bits = explode('/', $str);
-        $dec = $bits[0] / $bits[1];
+        if(is_array($bits) && count($bits) >=2) {
+          $dec = $bits[0] / $bits[1];
+        }
         return $dec;
     }
 }

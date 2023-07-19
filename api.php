@@ -55,6 +55,8 @@ if (defined('ENVIRONMENT'))
 		case 'testing':
 		case 'production':
 			define('KOKEN_STORE_URL', 'https://store.koken.me');
+      ini_set('display_errors', 1);
+      ini_set('log_errors', 1);
 			error_reporting(E_ALL);
 		break;
 

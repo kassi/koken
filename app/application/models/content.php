@@ -1299,10 +1299,10 @@ class Content extends Koken
                 'label' => "Date Time Original",
                 'field' => 'EXIF.DateTimeOriginal'
             ),
-			'date_time_original' => array(
-				'label' => "Date Time Digitized",
-				'field' => 'EXIF.DateTimeDigitized'
-			),
+            'date_time_original' => array(
+              'label' => "Date Time Digitized",
+              'field' => 'EXIF.DateTimeDigitized'
+            ),
             'flash' => array(
                 'label' => 'Flash',
                 'field' => 'EXIF.Flash',
@@ -1411,27 +1411,27 @@ class Content extends Koken
                     2 => 'Portrait',
                     3 => 'Night'
                 )
-			),
-			'artist' => array(
-				'label' => 'Artist',
-				'field' => 'IFD0.Artist'
-			),
-			'copyright' => array(
-				'label' => 'Copyright',
-				'field' => 'IFD0.Copyright'
-			),
-			'lens_id' => array(
-				'label' => 'Lens ID',
-				'field' => 'Composite.LensID'
-			),
-			'user_comment' => array(
-				'label' => 'User comment',
-				'field' => 'EXIF.UserComment',
-				'func' => '_convert_user_comment'
-			),
-			'file_name' => array(
-				'label' => 'File name',
-				'field' => 'FILE.FileName'
+            ),
+            'artist' => array(
+              'label' => 'Artist',
+              'field' => 'IFD0.Artist'
+            ),
+            'copyright' => array(
+              'label' => 'Copyright',
+              'field' => 'IFD0.Copyright'
+            ),
+            'lens_id' => array(
+              'label' => 'Lens ID',
+              'field' => 'Composite.LensID'
+            ),
+            'user_comment' => array(
+              'label' => 'User comment',
+              'field' => 'EXIF.UserComment',
+              'func' => '_convert_user_comment'
+            ),
+            'file_name' => array(
+              'label' => 'File name',
+              'field' => 'FILE.FileName'
             )
         );
 
@@ -1463,10 +1463,11 @@ class Content extends Koken
                 $bits = explode('.', $options['field']);
                 if (isset($exif[$bits[0]][$bits[1]])) {
                     $value = $exif[$bits[0]][$bits[1]];
-					if ($options['func']) {
-						$func = $options['func'];
-						$value = $this->$func($value);
-					}
+
+                    if (isset($options["func"])) {
+                      $func = $options['func'];
+                      $value = $this->$func($value);
+                    }
 
                     if (is_array($value)) {
                         $value = $value[0];
@@ -1595,7 +1596,7 @@ class Content extends Koken
 	    case chr(0x55) . chr(0x4E) . chr(0x49) . chr(0x43) . chr(0x4F) . chr(0x44) . chr(0x45) . chr(0x0): // Unicode
         $encoding = 'UTF-16LE';
         break;
-	    default:
+      default:
 	    case chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0): // Undefined
         // try it with ASCII anyway
         $encoding = 'ASCII';
